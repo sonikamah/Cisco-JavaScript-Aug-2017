@@ -39,7 +39,8 @@
 			divResult = null,
 			selectOperator = null,
 			spanNumber1Error = null,
-			spanNumber2Error = null;
+			spanNumber2Error = null,
+			btnSave = null;
 
 		function init(){
 			
@@ -49,14 +50,16 @@
 			selectOperator = document.getElementById('selectOperator');
 			spanNumber1Error = document.getElementById('spanNumber1Error');
 			spanNumber2Error = document.getElementById('spanNumber2Error');
+			btnSave = document.getElementById('btnSave');
 
 			document.getElementById('btnCalculate').addEventListener('click', triggerCalculate);
 			selectOperator.addEventListener('change', triggerCalculate);
 			txtNumber1.addEventListener('keyup', triggerCalculate);
 			txtNumber2.addEventListener('keyup', triggerCalculate);
 
-			txtNumber1.addEventListener('keyup', validateNumber1)
-			txtNumber2.addEventListener('keyup', validateNumber2)
+			txtNumber1.addEventListener('keyup', validateNumber1);
+			txtNumber2.addEventListener('keyup', validateNumber2);
+			btnSave.addEventListener('click', onBtnSaveClick);
 		}
 
 		function validateNumber1(){
@@ -111,6 +114,11 @@
 			calculator[operatorLookup[operation]]();
 			divResult.innerHTML = calculator.result;
 		}
+
+		function onBtnSaveClick(){
+			var row = '<tr><td>' + calculator.number1 + '</td><td>' + calculator.number2 + '</td><td>' + selectOperator.value + '</td><td>' +calculator.result +'</td></tr>';
+			document.getElementById('historylist').innerHTML += row;
+		}
 		window.addEventListener('DOMContentLoaded', init);
 	</script>
 </head>
@@ -130,7 +138,7 @@
 	<input type="button" value="Calculate" id="btnCalculate">
 	<div id="divResult">[Result]</div>
 
-	<input type="button" value="Save">
+	<input type="button" value="Save" id="btnSave">
 	<h3>History</h3>
 	<table>
 		<thead>
@@ -141,13 +149,8 @@
 				<th>Result</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr>
-				<td>100</td>
-				<td>200</td>
-				<td>+</td>
-				<td>300</td>
-			</tr>
+		<tbody id="historylist">
+			
 		</tbody>
 	</table>
 </body>
