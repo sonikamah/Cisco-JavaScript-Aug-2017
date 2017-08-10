@@ -9,16 +9,61 @@
 			font-size: 22pt;
 		}
 	</style>
+	<script>
+		var txtNumber1 = null,
+			txtNumber2 = null,
+			divResult = null;
+
+		function init(){
+			document.getElementById('btnAdd').addEventListener('click', onBtnAddClick);
+			document.getElementById('btnSubtract').addEventListener('click', onBtnSubtractClick);
+			document.getElementById('btnMultiply').addEventListener('click', onBtnMultiplyClick);
+			document.getElementById('btnDivide').addEventListener('click', onBtnDivideClick);
+
+			txtNumber1 = document.getElementById('txtNumber1');
+			txtNumber2 = document.getElementById('txtNumber2');
+			divResult = document.getElementById('divResult');
+		}
+
+		function onBtnAddClick(){
+			var n1 = parseInt(txtNumber1.value),
+				n2 = parseInt(txtNumber2.value),
+				result = n1 + n2;
+			divResult.innerHTML = result;
+		}
+
+		function onBtnSubtractClick(){
+			var n1 = parseInt(txtNumber1.value),
+				n2 = parseInt(txtNumber2.value),
+				result = n1 - n2;
+			divResult.innerHTML = result;
+		}
+
+		function onBtnMultiplyClick(){
+			var n1 = parseInt(txtNumber1.value),
+				n2 = parseInt(txtNumber2.value),
+				result = n1 * n2;
+			divResult.innerHTML = result;
+		}
+
+		function onBtnDivideClick(){
+			var n1 = parseInt(txtNumber1.value),
+				n2 = parseInt(txtNumber2.value),
+				result = n1 / n2;
+			divResult.innerHTML = result;
+		}
+		window.addEventListener('DOMContentLoaded', init);
+	</script>
 </head>
 <body>
 <h1>Calculator</h1>
 	<hr>
-	<input type="number" >
-	<input type="number" >
-	<input type="button" value="Add">
-	<input type="button" value="Subtract">
-	<input type="button" value="Multiply">
-	<input type="button" value="Divide">
+	<input type="number" id="txtNumber1">
+	<input type="number" id="txtNumber2">
+	<input type="button" value="Add" id="btnAdd">
+	<input type="button" value="Subtract" id="btnSubtract">
+	<input type="button" value="Multiply" id="btnMultiply">
+	<input type="button" value="Divide" id="btnDivide">
 	<div id="divResult">[Result]</div>	
 </body>
 </html>
