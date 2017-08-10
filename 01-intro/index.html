@@ -3,11 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Hello World - JavaScript</title>
-
-</head>
-<body>
-	<div id="message">[This is a sample message]</div>
-	<input type="button" value="Greet">
 	<script>
 		
 		function greet(name){
@@ -19,17 +14,30 @@
 			} else {
 				message = 'Hi ' + name + ', Good Afternoon!';
 			}
-			var divMessage = document.body.firstElementChild;
+			//var divMessage = document.body.children[1];
+			var divMessage = document.getElementById('divMessage');
 			divMessage.innerHTML = message;
 		}
 		function init_greet(){
-			var name = prompt('Enter the name');
-			console.log(document.body);
+			//var txtbox = document.body.firstElementChild;
+			var txtbox = document.getElementById('txtName');
+			var name = txtbox.value;
 			greet(name);
 		}
 		
-		var btn = document.body.children[1];
-		btn.addEventListener('click', init_greet);
+		function init_app(){
+			//var btn = document.body.children[2];
+			var btn = document.getElementById('btnGreet');
+			btn.addEventListener('click', init_greet);
+		}
+		window.addEventListener('DOMContentLoaded', init_app);
 	</script>
+</head>
+<body>
+	<span>asdfsa fdasfadsfdasfdas</span>
+	<input type="text" id="txtName"/>
+	<div id="divMessage">[This is a sample message]</div>
+	<input type="button" value="Greet" id="btnGreet">
+	
 </body>
 </html>
