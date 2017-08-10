@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello World - JavaScript</title>
+
+</head>
+<body>
+	<div id="message">[This is a sample message]</div>
+	<input type="button" value="Greet">
+	<script>
+		
+		function greet(name){
+			var date = new Date(),
+				hours = date.getHours(),
+				message = '';
+			if (hours < 12){
+				message = 'Hi ' + name + ', Good Morning!';
+			} else {
+				message = 'Hi ' + name + ', Good Afternoon!';
+			}
+			var divMessage = document.body.firstElementChild;
+			divMessage.innerHTML = message;
+		}
+		function init_greet(){
+			var name = prompt('Enter the name');
+			console.log(document.body);
+			greet(name);
+		}
+		
+		var btn = document.body.children[1];
+		btn.addEventListener('click', init_greet);
+	</script>
+</body>
+</html>
