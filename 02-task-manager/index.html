@@ -35,12 +35,28 @@
 			olTaskList = document.getElementById('olTaskList');
 
 			btnCreate.addEventListener('click', onBtnCreateClick);
+
+			var taskItems = olTaskList.children;
+			for(var index=0; index < taskItems.length; index++){
+				var taskItem = taskItems[index];
+				taskItem.addEventListener('click', onTaskItemClick);
+			}
 		}
+
+		function onTaskItemClick(evt){
+			evt.target.classList.toggle('completed');
+		}
+
 		function onBtnCreateClick(){
 			var taskName = txtTaskName.value;
-			var newTaskItem = '<li>' + taskName + '</li>';
-			olTaskList.innerHTML += newTaskItem;
+			var newTaskItem = document.createElement('li');
+			newTaskItem.innerHTML = taskName;
+			newTaskItem.addEventListener('click', onTaskItemClick);
+			olTaskList.appendChild(newTaskItem);
+			
 			spanTaskCount.innerHTML = parseInt(spanTaskCount.innerHTML)+1;
+
+			
 		}
 	</script>
 </head>
