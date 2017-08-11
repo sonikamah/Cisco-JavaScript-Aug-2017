@@ -25,10 +25,11 @@
 		}
 	</style>
 	<script>
-		
+
 		function getTasksModel(){
 			var taskList = [];
 			var currentTaskId =  0;
+			
 			function addTask(taskName){
 				var newTask = {
 					id : ++currentTaskId,
@@ -36,11 +37,12 @@
 					isCompleted : false
 				}
 				taskList.push(newTask);
+				return newTask;
 			}
 
 			function toggle(id){
 				for(var index=0; index < taskList.length;index++){
-					if (taskList[index].id === id)
+					if (taskList[index].id === parseInt(id))
 						taskList[index].isCompleted = !taskList[index].isCompleted;
 				}
 				
@@ -53,6 +55,7 @@
 					}
 				}
 			}
+			
 			function getStats(){
 				var completedCount = 0;
 				for(var index=0; index < taskList.length; index++){
@@ -64,6 +67,7 @@
 					completed : completedCount
 				};
 			}
+			
 			function getTasks(){
 				return taskList;
 			}
@@ -78,10 +82,12 @@
 		}
 
 		window.addEventListener('DOMContentLoaded', init);
+
 		var txtTaskName,
 			btnCreate,
 			olTaskList,
-			btnRemoveClosed;
+			btnRemoveClosed,
+			taskModel = getTasksModel();
 
 		function init(){
 			txtTaskName = document.getElementById('txtTaskName');
@@ -92,42 +98,42 @@
 			btnCreate.addEventListener('click', onBtnCreateClick);
 			btnRemoveClosed.addEventListener('click', onBtnRemoveClosedClick);
 
-			var taskItems = olTaskList.children;
-			for(var index=0; index < taskItems.length; index++){
-				var taskItem = taskItems[index];
-				taskItem.addEventListener('click', onTaskItemClick);
-			}
+			
 		}
 
 		function onTaskItemClick(evt){
+			var taskIdToToggle = evt.target.getAttribute('task-id');
+			taskModel.toggle(taskIdToToggle);
 			evt.target.classList.toggle('completed');
+			updateStats();
 		}
 
 		function onBtnCreateClick(){
 			var taskName = txtTaskName.value;
+			var newTask = taskModel.addTask(taskName);
+
 			var newTaskItem = document.createElement('li');
-			newTaskItem.innerHTML = taskName;
+			newTaskItem.innerHTML = newTask.name;
+			newTaskItem.setAttribute('task-id', newTask.id);
 			newTaskItem.addEventListener('click', onTaskItemClick);
 			olTaskList.appendChild(newTaskItem);
 
-			spanTaskCount.innerHTML = parseInt(spanTaskCount.innerHTML)+1;
-
-			
+			updateStats();
 		}
 
 		function onBtnRemoveClosedClick(){
-			/*var taskItems = olTaskList.children;
-			for(var index = taskItems.length-1; index>=0; index--)
-				if (taskItems[index].classList.contains('completed'))
-					olTaskList.removeChild(taskItems[index]);*/
-
-			/*var completedTaskItems = document.querySelectorAll('li.completed');
-			for(var index=completedTaskItems.length-1; index >= 0; index--)
-				olTaskList.removeChild(completedTaskItems[index]);*/
 
 			var completedTaskItems = olTaskList.getElementsByClassName('completed');
 			for(var index=completedTaskItems.length-1; index >= 0; index--)
 				olTaskList.removeChild(completedTaskItems[index]);
+			taskModel.removeCompleted();
+			updateStats();
+		}
+		
+		function updateStats(){
+			var taskStats = taskModel.getStats();
+			spanTaskCount.innerHTML = taskStats.total;
+			spanCompletedCount.innerHTML = taskStats.completed;
 		}
 	</script>
 </head>
@@ -136,9 +142,9 @@
 	<h1>Task Manager</h1>
 	<hr>
 	<section class="stats">
-		<span class="completed">1</span>
+		<span class="completed" id="spanCompletedCount">0</span>
 		<span>/</span>
-		<span id="spanTaskCount">2</span>
+		<span id="spanTaskCount">0</span>
 	</section>
 	<section class="edit">
 		<label for="">Task Name :</label>
@@ -147,8 +153,6 @@
 	</section>
 	<section class="list">
 		<ol id="olTaskList">
-			<li>Task - 1</li>
-			<li class="completed">Task - 2</li>
 		</ol>
 		<input type="button" value="Remove Closed" id="btnRemoveClosed">
 	</section>
