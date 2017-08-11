@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<script type="text/usecases">
+		1. Add a new task
+		2. List the tasks
+		3. Toggle the task as completed
+		4. remove completed tasks
+		5. display stats
+	</script>
+	<style>
+		.completed{
+			color : red;
+			text-decoration: line-through;
+			font-style: italic;
+			font-weight: bold;
+		}
+		li{
+			cursor: pointer;
+		}
+		body{
+			margin-left: 50px;
+		}
+	</style>
+	<script>
+		
+		function getTasksModel(){
+			var taskList = [];
+			var currentTaskId =  0;
+			function addTask(taskName){
+				var newTask = {
+					id : ++currentTaskId,
+					name : taskName,
+					isCompleted : false
+				}
+				taskList.push(newTask);
+			}
+
+			function toggle(id){
+				for(var index=0; index < taskList.length;index++){
+					if (taskList[index].id === id)
+						taskList[index].isCompleted = !taskList[index].isCompleted;
+				}
+				
+			}
+
+			function removeCompleted(){
+				for(var index=taskList.length-1; index >=0 ; index--){
+					if (taskList[index].isCompleted){
+						taskList.splice(index, 1);
+					}
+				}
+			}
+			function getStats(){
+				var completedCount = 0;
+				for(var index=0; index < taskList.length; index++){
+					if (taskList[index].isCompleted)
+						++completedCount;
+				}
+				return {
+					total : taskList.length,
+					completed : completedCount
+				};
+			}
+			function getTasks(){
+				return taskList;
+			}
+
+			return {
+				addTask : addTask,
+				removeCompleted : removeCompleted,
+				toggle : toggle,
+				getStats : getStats,
+				list : getTasks
+			}
+		}
+
+		window.addEventListener('DOMContentLoaded', init);
+		var txtTaskName,
+			btnCreate,
+			olTaskList,
+			btnRemoveClosed;
+
+		function init(){
+			txtTaskName = document.getElementById('txtTaskName');
+			btnCreate = document.getElementById('btnCreate');
+			olTaskList = document.getElementById('olTaskList');
+			btnRemoveClosed = document.getElementById('btnRemoveClosed');
+
+			btnCreate.addEventListener('click', onBtnCreateClick);
+			btnRemoveClosed.addEventListener('click', onBtnRemoveClosedClick);
+
+			var taskItems = olTaskList.children;
+			for(var index=0; index < taskItems.length; index++){
+				var taskItem = taskItems[index];
+				taskItem.addEventListener('click', onTaskItemClick);
+			}
+		}
+
+		function onTaskItemClick(evt){
+			evt.target.classList.toggle('completed');
+		}
+
+		function onBtnCreateClick(){
+			var taskName = txtTaskName.value;
+			var newTaskItem = document.createElement('li');
+			newTaskItem.innerHTML = taskName;
+			newTaskItem.addEventListener('click', onTaskItemClick);
+			olTaskList.appendChild(newTaskItem);
+
+			spanTaskCount.innerHTML = parseInt(spanTaskCount.innerHTML)+1;
+
+			
+		}
+
+		function onBtnRemoveClosedClick(){
+			/*var taskItems = olTaskList.children;
+			for(var index = taskItems.length-1; index>=0; index--)
+				if (taskItems[index].classList.contains('completed'))
+					olTaskList.removeChild(taskItems[index]);*/
+
+			/*var completedTaskItems = document.querySelectorAll('li.completed');
+			for(var index=completedTaskItems.length-1; index >= 0; index--)
+				olTaskList.removeChild(completedTaskItems[index]);*/
+
+			var completedTaskItems = olTaskList.getElementsByClassName('completed');
+			for(var index=completedTaskItems.length-1; index >= 0; index--)
+				olTaskList.removeChild(completedTaskItems[index]);
+		}
+	</script>
+</head>
+<body>
+	<!-- h1{Task Manager}+hr+section.stats>span.completed{2}+span{/}+span{5}^section.edit>label{Task Name :}+input:text+input:button[value="Create"]^section.list>ol>li*2>{Task - $}^input:button[value="Remove Closed"] -->
+	<h1>Task Manager</h1>
+	<hr>
+	<section class="stats">
+		<span class="completed">1</span>
+		<span>/</span>
+		<span id="spanTaskCount">2</span>
+	</section>
+	<section class="edit">
+		<label for="">Task Name :</label>
+		<input type="text" id="txtTaskName">
+		<input type="button" value="Create" id="btnCreate">
+	</section>
+	<section class="list">
+		<ol id="olTaskList">
+			<li>Task - 1</li>
+			<li class="completed">Task - 2</li>
+		</ol>
+		<input type="button" value="Remove Closed" id="btnRemoveClosed">
+	</section>
+</body>
+</html>
