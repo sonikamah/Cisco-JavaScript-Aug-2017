@@ -24,6 +24,25 @@
 			margin-left: 50px;
 		}
 	</style>
+	<script>
+		window.addEventListener('DOMContentLoaded', init);
+		var txtTaskName,
+			btnCreate,
+			olTaskList;
+		function init(){
+			txtTaskName = document.getElementById('txtTaskName');
+			btnCreate = document.getElementById('btnCreate');
+			olTaskList = document.getElementById('olTaskList');
+
+			btnCreate.addEventListener('click', onBtnCreateClick);
+		}
+		function onBtnCreateClick(){
+			var taskName = txtTaskName.value;
+			var newTaskItem = '<li>' + taskName + '</li>';
+			olTaskList.innerHTML += newTaskItem;
+			spanTaskCount.innerHTML = parseInt(spanTaskCount.innerHTML)+1;
+		}
+	</script>
 </head>
 <body>
 	<!-- h1{Task Manager}+hr+section.stats>span.completed{2}+span{/}+span{5}^section.edit>label{Task Name :}+input:text+input:button[value="Create"]^section.list>ol>li*2>{Task - $}^input:button[value="Remove Closed"] -->
@@ -32,15 +51,15 @@
 	<section class="stats">
 		<span class="completed">1</span>
 		<span>/</span>
-		<span>2</span>
+		<span id="spanTaskCount">2</span>
 	</section>
 	<section class="edit">
 		<label for="">Task Name :</label>
-		<input type="text" name="" id="">
-		<input type="button" value="Create">
+		<input type="text" id="txtTaskName">
+		<input type="button" value="Create" id="btnCreate">
 	</section>
 	<section class="list">
-		<ol>
+		<ol id="olTaskList">
 			<li>Task - 1</li>
 			<li class="completed">Task - 2</li>
 		</ol>
