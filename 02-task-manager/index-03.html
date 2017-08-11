@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script>
+		window.addEventListener('DOMContentLoaded', init);
+		function init(){
+			document.getElementById('btnGetData').addEventListener('click', onBtnGetDataClick);
+			document.getElementById('btnCreateNew').addEventListener('click', onBtnCreateNewClick);
+		}
+
+		function onBtnGetDataClick(){
+			var xhr = new XMLHttpRequest();
+
+			function xhrStateChangeListener(){
+				if (xhr.readyState === xhr.DONE){
+					if (xhr.status === 200) {
+				        console.table(JSON.parse(xhr.responseText));
+				      } else {
+				        alert('There was a problem with the request.');
+				      }
+				}
+			}
+
+			xhr.onreadystatechange = xhrStateChangeListener;
+
+			xhr.open('GET', 'http://localhost:3000/tasks');
+			xhr.send();
+		}
+
+		function onBtnCreateNewClick(){
+			var xhr = new XMLHttpRequest();
+
+			function xhrStateChangeListener(){
+				if (xhr.readyState === xhr.DONE){
+					if (xhr.status === 200) {
+				        console.log(JSON.parse(xhr.responseText));
+				      } else {
+				        alert('There was a problem with the request.');
+				      }
+				}
+			}
+
+			xhr.onreadystatechange = xhrStateChangeListener;
+
+			var taskName = prompt('Enter the task name');
+			var newTask = {
+				id : 0,
+				name : taskName,
+				isClosed : false
+			};
+			
+			xhr.open('POST', 'http://localhost:3000/tasks');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			
+			xhr.send(JSON.stringify(newTask));
+		}
+	</script>
+</head>
+<body>
+	<input type="button" value="Get Data" id="btnGetData">
+	<input type="button" value="Create New" id="btnCreateNew">
+</body>
+</html>
