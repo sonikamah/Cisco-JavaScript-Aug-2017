@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<script type="text/usecases">
+		1. Add a new task
+		2. List the tasks
+		3. Toggle the task as completed
+		4. remove completed tasks
+		5. display stats
+	</script>
+	<style>
+		.completed{
+			color : red;
+			text-decoration: line-through;
+			font-style: italic;
+			font-weight: bold;
+		}
+		li{
+			cursor: pointer;
+		}
+		body{
+			margin-left: 50px;
+		}
+	</style>
+</head>
+<body>
+	<!-- h1{Task Manager}+hr+section.stats>span.completed{2}+span{/}+span{5}^section.edit>label{Task Name :}+input:text+input:button[value="Create"]^section.list>ol>li*2>{Task - $}^input:button[value="Remove Closed"] -->
+	<h1>Task Manager</h1>
+	<hr>
+	<section class="stats">
+		<span class="completed">1</span>
+		<span>/</span>
+		<span>2</span>
+	</section>
+	<section class="edit">
+		<label for="">Task Name :</label>
+		<input type="text" name="" id="">
+		<input type="button" value="Create">
+	</section>
+	<section class="list">
+		<ol>
+			<li>Task - 1</li>
+			<li class="completed">Task - 2</li>
+		</ol>
+		<input type="button" value="Remove Closed">
+	</section>
+</body>
+</html>
