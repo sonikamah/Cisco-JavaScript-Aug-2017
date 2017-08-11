@@ -28,13 +28,17 @@
 		window.addEventListener('DOMContentLoaded', init);
 		var txtTaskName,
 			btnCreate,
-			olTaskList;
+			olTaskList,
+			btnRemoveClosed;
+
 		function init(){
 			txtTaskName = document.getElementById('txtTaskName');
 			btnCreate = document.getElementById('btnCreate');
 			olTaskList = document.getElementById('olTaskList');
+			btnRemoveClosed = document.getElementById('btnRemoveClosed');
 
 			btnCreate.addEventListener('click', onBtnCreateClick);
+			btnRemoveClosed.addEventListener('click', onBtnRemoveClosedClick);
 
 			var taskItems = olTaskList.children;
 			for(var index=0; index < taskItems.length; index++){
@@ -53,10 +57,25 @@
 			newTaskItem.innerHTML = taskName;
 			newTaskItem.addEventListener('click', onTaskItemClick);
 			olTaskList.appendChild(newTaskItem);
-			
+
 			spanTaskCount.innerHTML = parseInt(spanTaskCount.innerHTML)+1;
 
 			
+		}
+
+		function onBtnRemoveClosedClick(){
+			/*var taskItems = olTaskList.children;
+			for(var index = taskItems.length-1; index>=0; index--)
+				if (taskItems[index].classList.contains('completed'))
+					olTaskList.removeChild(taskItems[index]);*/
+
+			/*var completedTaskItems = document.querySelectorAll('li.completed');
+			for(var index=completedTaskItems.length-1; index >= 0; index--)
+				olTaskList.removeChild(completedTaskItems[index]);*/
+
+			var completedTaskItems = olTaskList.getElementsByClassName('completed');
+			for(var index=completedTaskItems.length-1; index >= 0; index--)
+				olTaskList.removeChild(completedTaskItems[index]);
 		}
 	</script>
 </head>
@@ -79,7 +98,7 @@
 			<li>Task - 1</li>
 			<li class="completed">Task - 2</li>
 		</ol>
-		<input type="button" value="Remove Closed">
+		<input type="button" value="Remove Closed" id="btnRemoveClosed">
 	</section>
 </body>
 </html>
